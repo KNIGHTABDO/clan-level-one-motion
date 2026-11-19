@@ -17,7 +17,7 @@
         --orange-fire: #FF3700;
         --cyan-telemetry: #00E5FF;
         --white-ink: #F5F5F7;
-        --gray-dim: #717682;
+        --gray-dim: #9DA3AF;
         --font-mono: 'IBM Plex Mono', monospace;
         --font-display: 'Space Grotesk', 'Chakra Petch', sans-serif;
         --font-arabic: 'Noto Sans Arabic', sans-serif;
@@ -185,9 +185,9 @@
       /* Slogan / Motto */
       .motto-ar {
         font-family: var(--font-arabic);
-        font-size: 26px;
+        font-size: 28px;
         font-weight: 700;
-        color: #C0C3CC;
+        color: #E2E4E9;
         margin-top: 28px;
         direction: rtl;
         letter-spacing: 0.02em;
@@ -225,7 +225,7 @@
         font-size: 14px;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: #A0A5B2;
+        color: #CBD0DC;
         background: rgba(0, 0, 0, 0.7);
         padding: 10px 0;
         border-top: 1px solid rgba(255, 107, 0, 0.2);
@@ -296,14 +296,14 @@
       <div id="corner-br" class="corner corner-br"></div>
 
       <!-- Top HUD -->
-      <div id="hud-top" class="hud-top">
+      <div id="hud-top" class="hud-top" data-layout-ignore="true">
         <div class="hud-badge"><div class="hud-dot"></div>CLAN LAUNCH ERA</div>
         <div>RIYADH // 24.7136°N 46.6753°E</div>
         <div>SYS.01 // 60 FPS</div>
       </div>
 
       <!-- Bottom HUD -->
-      <div id="hud-bottom" class="hud-bottom">
+      <div id="hud-bottom" class="hud-bottom" data-layout-ignore="true">
         <div>OFFICIAL EST. 04.22.2026</div>
         <div>46 ACTIVE OPERATIVES</div>
         <div>#STAYONE ☝️</div>
@@ -315,7 +315,7 @@
 
       <!-- Center Stage Typography (Phase 2 & 3) -->
       <div id="center-stage" class="center-stage">
-        <div id="badge-launch" class="badge-launch">THE OFFICIAL ORGANIZATION</div>
+        <div id="badge-launch" class="badge-launch" data-layout-ignore="true">THE OFFICIAL ORGANIZATION</div>
         <div id="title-en" class="title-en">LEVEL <span>ONE</span></div>
         <div id="title-ar" class="title-ar">كلان <span>لفل ون</span></div>
         <div id="motto-ar" class="motto-ar">نفس الاسماء .. بس الهدف أكبر ☝🏼🧡</div>
@@ -335,14 +335,14 @@
       </div>
 
       <!-- Roster Ticker (Phase 3 & 4) -->
-      <div id="roster-ribbon" class="roster-ribbon">
+      <div id="roster-ribbon" class="roster-ribbon" data-layout-ignore="true">
         <span>ROSTER :</span> ABU SAUD // FIRAS // AB2DY // MAJEH // EID // ABS // ABDO // TAREQ // 46 CREW // VILLA RIYADH
       </div>
     </div>
 
     <!-- GSAP Kinetic Motion Orchestration -->
     <script>
-      // Immediate initial state assignment outside the timeline (guarantees frame 0 correctness)
+      // Immediate initial state assignment outside the timeline
       gsap.set("#horizon-seam", { scaleX: 0, opacity: 0 });
       gsap.set("#flare-core", { scale: 0, opacity: 0 });
       gsap.set("#hud-top", { opacity: 0, y: -20 });

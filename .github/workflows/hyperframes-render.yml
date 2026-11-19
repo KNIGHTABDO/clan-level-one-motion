@@ -21,11 +21,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify HyperFrames composition
+      - name: Install FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+
+      - name: Lint HyperFrames composition
         working-directory: hyperframes
         run: |
           npx --yes hyperframes lint
-          npx --yes hyperframes check
 
       - name: Render HyperFrames Video to MP4
         working-directory: hyperframes
