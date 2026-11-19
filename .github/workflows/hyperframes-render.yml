@@ -10,7 +10,7 @@ permissions:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -20,17 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Install system dependencies (FFmpeg & Google Chrome)
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg wget gnupg
-          if ! command -v google-chrome &> /dev/null; then
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
-            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-            sudo apt-get update -qq
-            sudo apt-get install -y google-chrome-stable
-          fi
 
       - name: Verify HyperFrames composition
         working-directory: hyperframes

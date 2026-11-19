@@ -1,11 +1,6 @@
 name: Render Remotion Video (Cloud Matrix)
 on:
   workflow_dispatch:
-    inputs:
-      total_frames:
-        description: 'Total number of frames to render'
-        required: true
-        default: '300'
   push:
     branches: [main]
 
@@ -15,11 +10,11 @@ permissions:
 jobs:
   render-chunks:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,29 +31,21 @@ jobs:
         run: |
           npm ci
 
-      - name: Install Google Chrome & FFmpeg
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg
-
       - name: Render Chunk
         working-directory: remotion
         run: |
           mkdir -p out/chunks
           CHUNK=${{ matrix.chunk }}
-          TOTAL_CHUNKS=20
-          TOTAL_FRAMES=300
-          FRAMES_PER_CHUNK=$(( TOTAL_FRAMES / TOTAL_CHUNKS ))
+          FRAMES_PER_CHUNK=27
           START=$(( CHUNK * FRAMES_PER_CHUNK ))
           END=$(( START + FRAMES_PER_CHUNK - 1 ))
-          echo "Rendering frame range: $START to $END (Chunk $CHUNK of $TOTAL_CHUNKS)"
+          echo "Rendering frame range: $START to $END (Chunk $CHUNK of 10)"
           npx remotion render LevelOneDemo "out/chunks/chunk_${CHUNK}.mp4" \
             --frames="${START}-${END}" \
             --concurrency=2 \
             --codec=h264 \
             --pixel-format=yuv420p \
-            --gl=swangle \
-            --browser-executable=/usr/bin/google-chrome
+            --gl=swangle
 
       - name: Upload Chunk Artifact
         uses: actions/upload-artifact@v4
@@ -88,7 +75,7 @@ jobs:
         run: |
           mkdir -p final_out
           # Create ffmpeg concat list in numerical order
-          for i in $(seq 0 19); do
+          for i in $(seq 0 9); do
             echo "file '$(pwd)/chunks_download/chunk_${i}.mp4'" >> concat_list.txt
           done
           cat concat_list.txt
