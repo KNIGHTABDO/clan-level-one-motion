@@ -1,0 +1,19 @@
+# Dependencies
+**/node_modules/**
+**/node_modules
+
+# Renders & Outputs
+out/
+**/out/**
+final_out/
+chunks_download/
+snapshots/
+**/snapshots/**
+*.mp4
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

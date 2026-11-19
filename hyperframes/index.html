@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Clan Level One — Motion Graphics Master</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;700&family=Noto+Sans+Arabic:wght@700;800;900&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ground: #070708;
+        --ground-subtle: #0f1013;
+        --orange-core: #FF6B00;
+        --orange-hot: #FF881A;
+        --orange-fire: #FF3700;
+        --cyan-telemetry: #00E5FF;
+        --white-ink: #F5F5F7;
+        --gray-dim: #717682;
+        --font-mono: 'IBM Plex Mono', monospace;
+        --font-display: 'Space Grotesk', 'Chakra Petch', sans-serif;
+        --font-arabic: 'Noto Sans Arabic', sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-display);
+        color: var(--white-ink);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Viewport root & absolute fill */
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        background: radial-gradient(circle at 50% 50%, #111216 0%, #060607 100%);
+        overflow: hidden;
+      }
+
+      /* Subtle tactical grid */
+      .grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-size: 60px 60px;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        pointer-events: none;
+      }
+
+      /* Horizon light seam ignition */
+      #horizon-seam {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 1080px;
+        height: 2px;
+        margin-top: -1px;
+        background: linear-gradient(90deg, transparent 0%, var(--orange-core) 30%, #FFF 50%, var(--orange-core) 70%, transparent 100%);
+        box-shadow: 0 0 30px 4px var(--orange-core), 0 0 60px 8px var(--orange-fire);
+        transform-origin: center;
+        z-index: 10;
+      }
+
+      /* HUD Telemetry Top */
+      .hud-top {
+        position: absolute;
+        top: 60px;
+        left: 60px;
+        right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        letter-spacing: 0.18em;
+        color: var(--gray-dim);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 16px;
+        z-index: 20;
+      }
+      .hud-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--orange-core);
+        background: rgba(255, 107, 0, 0.1);
+        border: 1px solid rgba(255, 107, 0, 0.3);
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: 700;
+      }
+      .hud-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--orange-core);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--orange-core);
+      }
+
+      /* HUD Telemetry Bottom */
+      .hud-bottom {
+        position: absolute;
+        bottom: 60px;
+        left: 60px;
+        right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.15em;
+        color: var(--gray-dim);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 16px;
+        z-index: 20;
+      }
+
+      /* Center stage typography container */
+      .center-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 30;
+        padding: 0 60px;
+      }
+
+      /* Subhead badge */
+      .badge-launch {
+        font-family: var(--font-mono);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--orange-hot);
+        margin-bottom: 24px;
+        padding: 6px 18px;
+        background: rgba(255, 107, 0, 0.08);
+        border: 1px solid rgba(255, 107, 0, 0.25);
+        border-radius: 999px;
+      }
+
+      /* Monumental English Heading */
+      .title-en {
+        font-size: 96px;
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: var(--white-ink);
+        text-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      }
+      .title-en span {
+        color: var(--orange-core);
+        text-shadow: 0 0 35px rgba(255, 107, 0, 0.6);
+      }
+
+      /* Monumental Arabic Title */
+      .title-ar {
+        font-family: var(--font-arabic);
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.15;
+        color: var(--white-ink);
+        margin-top: 8px;
+        direction: rtl;
+      }
+      .title-ar span {
+        color: var(--orange-hot);
+      }
+
+      /* Slogan / Motto */
+      .motto-ar {
+        font-family: var(--font-arabic);
+        font-size: 26px;
+        font-weight: 700;
+        color: #C0C3CC;
+        margin-top: 28px;
+        direction: rtl;
+        letter-spacing: 0.02em;
+      }
+
+      /* Clan Crest Emblem / Brand Stamp */
+      .crest-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 480px;
+        height: 480px;
+        margin-top: -240px;
+        margin-left: -240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 40;
+        pointer-events: none;
+      }
+      .crest-svg {
+        width: 320px;
+        height: 320px;
+        filter: drop-shadow(0 0 45px rgba(255, 107, 0, 0.5));
+      }
+
+      /* Roster Ribbon */
+      .roster-ribbon {
+        position: absolute;
+        bottom: 120px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #A0A5B2;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 0;
+        border-top: 1px solid rgba(255, 107, 0, 0.2);
+        border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+        z-index: 25;
+      }
+      .roster-ribbon span {
+        color: var(--orange-core);
+        font-weight: 700;
+      }
+
+      /* Corner framing marks */
+      .corner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-color: rgba(255, 255, 255, 0.2);
+        z-index: 20;
+      }
+      .corner-tl { top: 30px; left: 30px; border-top: 2px solid; border-left: 2px solid; }
+      .corner-tr { top: 30px; right: 30px; border-top: 2px solid; border-right: 2px solid; }
+      .corner-bl { bottom: 30px; left: 30px; border-bottom: 2px solid; border-left: 2px solid; }
+      .corner-br { bottom: 30px; right: 30px; border-bottom: 2px solid; border-right: 2px solid; }
+
+      /* Optical flare spark */
+      .flare-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        margin-top: -6px;
+        margin-left: -6px;
+        background: #FFF;
+        border-radius: 50%;
+        box-shadow: 0 0 50px 20px #FF6B00, 0 0 100px 40px #FF3300;
+        z-index: 50;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="5"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- Audio Track: 21 Savage - redrum -->
+      <audio 
+        id="bg-music"
+        src="./assets/redrum.mp3" 
+        class="clip" 
+        data-start="0" 
+        data-duration="5" 
+        data-media-start="0" 
+        data-volume="1"
+      ></audio>
+
+      <!-- Background Grid -->
+      <div id="grid-overlay" class="grid-overlay"></div>
+
+      <!-- Corner Frame Brackets -->
+      <div id="corner-tl" class="corner corner-tl"></div>
+      <div id="corner-tr" class="corner corner-tr"></div>
+      <div id="corner-bl" class="corner corner-bl"></div>
+      <div id="corner-br" class="corner corner-br"></div>
+
+      <!-- Top HUD -->
+      <div id="hud-top" class="hud-top">
+        <div class="hud-badge"><div class="hud-dot"></div>CLAN LAUNCH ERA</div>
+        <div>RIYADH // 24.7136°N 46.6753°E</div>
+        <div>SYS.01 // 60 FPS</div>
+      </div>
+
+      <!-- Bottom HUD -->
+      <div id="hud-bottom" class="hud-bottom">
+        <div>OFFICIAL EST. 04.22.2026</div>
+        <div>46 ACTIVE OPERATIVES</div>
+        <div>#STAYONE ☝️</div>
+      </div>
+
+      <!-- Horizon Seam Line (Phase 1) -->
+      <div id="horizon-seam"></div>
+      <div id="flare-core" class="flare-core"></div>
+
+      <!-- Center Stage Typography (Phase 2 & 3) -->
+      <div id="center-stage" class="center-stage">
+        <div id="badge-launch" class="badge-launch">THE OFFICIAL ORGANIZATION</div>
+        <div id="title-en" class="title-en">LEVEL <span>ONE</span></div>
+        <div id="title-ar" class="title-ar">كلان <span>لفل ون</span></div>
+        <div id="motto-ar" class="motto-ar">نفس الاسماء .. بس الهدف أكبر ☝🏼🧡</div>
+      </div>
+
+      <!-- Crest Brand Stamp (Phase 3 impact) -->
+      <div id="crest-wrapper" class="crest-wrapper">
+        <svg id="crest-svg" class="crest-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer Hexagon / Shield -->
+          <polygon points="100,10 185,55 185,145 100,190 15,145 15,55" stroke="#FF6B00" stroke-width="4" stroke-dasharray="8 4" fill="rgba(255, 107, 0, 0.05)"/>
+          <polygon points="100,22 173,61 173,139 100,178 27,139 27,61" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1.5" fill="none"/>
+          <!-- Bold Roman Numeral 'I' / Level One Apex -->
+          <rect x="91" y="55" width="18" height="90" rx="3" fill="#FFFFFF"/>
+          <polygon points="100,38 85,55 115,55" fill="#FF6B00"/>
+          <polygon points="100,162 85,145 115,145" fill="#FF6B00"/>
+        </svg>
+      </div>
+
+      <!-- Roster Ticker (Phase 3 & 4) -->
+      <div id="roster-ribbon" class="roster-ribbon">
+        <span>ROSTER :</span> ABU SAUD // FIRAS // AB2DY // MAJEH // EID // ABS // ABDO // TAREQ // 46 CREW // VILLA RIYADH
+      </div>
+    </div>
+
+    <!-- GSAP Kinetic Motion Orchestration -->
+    <script>
+      // Immediate initial state assignment outside the timeline (guarantees frame 0 correctness)
+      gsap.set("#horizon-seam", { scaleX: 0, opacity: 0 });
+      gsap.set("#flare-core", { scale: 0, opacity: 0 });
+      gsap.set("#hud-top", { opacity: 0, y: -20 });
+      gsap.set("#hud-bottom", { opacity: 0, y: 20 });
+      gsap.set("#badge-launch", { opacity: 0, scale: 0.85, y: -15 });
+      gsap.set("#title-en", { opacity: 0, scale: 0.9, y: 30 });
+      gsap.set("#title-ar", { opacity: 0, scale: 0.9, y: 30 });
+      gsap.set("#motto-ar", { opacity: 0, y: 20 });
+      gsap.set("#crest-wrapper", { opacity: 0, scale: 2.2, rotation: -12 });
+      gsap.set("#roster-ribbon", { opacity: 0, y: 40 });
+
+      const tl = gsap.timeline({ paused: true });
+
+      // PHASE 1: Seam Ignition & Flare Detonation (0.00s - 0.70s)
+      tl.to("#hud-top", { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.1);
+      tl.to("#hud-bottom", { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.1);
+      tl.to("#horizon-seam", { opacity: 1, scaleX: 1, duration: 0.35, ease: "expo.out" }, 0.15);
+      tl.to("#flare-core", { scale: 1.5, opacity: 1, duration: 0.25, ease: "power4.out" }, 0.25);
+      tl.to("#flare-core", { scale: 0, opacity: 0, duration: 0.25, ease: "power2.in" }, 0.50);
+      tl.to("#horizon-seam", { opacity: 0.3, duration: 0.3, ease: "power2.out" }, 0.55);
+
+      // PHASE 2: Bilingual Monumental Title Reveal (0.65s - 2.40s)
+      tl.to("#badge-launch", { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, 0.65);
+      tl.to("#title-en", { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.80);
+      tl.to("#title-ar", { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.95);
+      tl.to("#motto-ar", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 1.15);
+      tl.to("#roster-ribbon", { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 1.30);
+
+      // Subtle breath drift during hold
+      tl.to("#center-stage", { y: -10, duration: 1.2, ease: "sine.inOut" }, 1.2);
+
+      // PHASE 3: Crest Brand Stamp Slam & Transient Shock (2.40s - 3.80s)
+      tl.to("#center-stage", { scale: 0.92, opacity: 0.35, duration: 0.25, ease: "power3.out" }, 2.35);
+      tl.to("#crest-wrapper", { 
+        opacity: 1, 
+        scale: 1, 
+        rotation: 0, 
+        duration: 0.28, 
+        ease: "expo.out" 
+      }, 2.40);
+
+      // Camera impulse recoil (shake) on impact
+      tl.to("#root", { scale: 1.025, duration: 0.08, ease: "power4.out" }, 2.42);
+      tl.to("#root", { scale: 1.0, duration: 0.25, ease: "elastic.out(1, 0.4)" }, 2.50);
+
+      // Flash ignition pulse on crest slam
+      tl.to("#horizon-seam", { opacity: 1, scaleX: 1.2, duration: 0.15, ease: "power4.out" }, 2.42);
+      tl.to("#horizon-seam", { opacity: 0.2, scaleX: 1.0, duration: 0.4, ease: "power2.out" }, 2.57);
+
+      // PHASE 4: Fusion & Hero Hold (3.80s - 5.00s)
+      tl.to("#crest-wrapper", { scale: 0.95, duration: 1.0, ease: "sine.inOut" }, 2.70);
+      tl.to("#center-stage", { opacity: 0.85, scale: 0.96, duration: 0.5, ease: "power2.out" }, 3.50);
+
+      // Register timeline for HyperFrames deterministic engine
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
