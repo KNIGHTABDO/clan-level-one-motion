@@ -5,6 +5,7 @@
 # Renders & Outputs
 out/
 **/out/**
+artifacts/
 final_out/
 chunks_download/
 snapshots/
