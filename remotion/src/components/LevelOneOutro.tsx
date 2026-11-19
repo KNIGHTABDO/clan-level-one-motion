@@ -43,13 +43,12 @@ export const LevelOneOutro: React.FC = () => {
           overflow: 'hidden',
         }}
       >
-        <Img
-          src={staticFile('assets/c12_hero.jpg')}
+        <div
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            filter: 'brightness(0.38) contrast(1.15) saturate(0.85)',
+            background:
+              'radial-gradient(ellipse at 50% 40%, rgba(255, 107, 0, 0.18) 0%, rgba(15, 16, 20, 0.95) 60%, #070708 100%)',
           }}
         />
 
